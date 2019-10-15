@@ -9,3 +9,11 @@ To build run the web service on `http://localhost:8080`:
 ```bash
 docker-compose up --build
 ```
+
+### Running tests
+
+To run all tests within the repository:
+
+```go
+go test ./...
+```

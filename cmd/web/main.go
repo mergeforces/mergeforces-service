@@ -2,23 +2,23 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
+	a "github.com/mergeforces/mergeforces-service/api/app"
 	r "github.com/mergeforces/mergeforces-service/api/router"
 	c "github.com/mergeforces/mergeforces-service/config"
+	l "github.com/mergeforces/mergeforces-service/util/logger"
 )
 
 func main() {
 	config := c.AppConfig()
-	router := r.New()
-
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", Ping)
+	logger := l.New(config.Debug)
+	application := a.New(logger)
+	router := r.New(application)
 
 	address := fmt.Sprintf(":%d", config.Server.Port)
 
-	log.Printf("Starting server %s\n", address)
+	logger.Info().Msgf("Starting server %v", address)
 
 	s := &http.Server{
 		Addr:         address,
@@ -29,10 +29,6 @@ func main() {
 	}
 
 	if err := s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Fatal("Server startup failed")
+		logger.Fatal().Err(err).Msg("Server startup failed")
 	}
-}
-
-func Ping(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
 }
