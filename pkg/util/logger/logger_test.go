@@ -6,14 +6,12 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
-
-	"github.com/mergeforces/mergeforces-service/util/logger"
 )
 
 // setup would normally be an init() function, however, there seems
 // to be something awry with the testing framework when we set the
 // global Logger from an init()
-func setup() *logger.Logger {
+func setup() *Logger {
 	// UNIX Time is faster and smaller than most timestamps
 	// If you set zerolog.TimeFieldFormat to an empty string,
 	// logs will write with UNIX time
@@ -25,7 +23,7 @@ func setup() *logger.Logger {
 		return time.Date(2008, 1, 8, 17, 5, 05, 0, time.UTC)
 	}
 
-	return logger.NewConsole(true)
+	return NewConsole(true)
 }
 
 // Simple logging example using the Print function in the log package

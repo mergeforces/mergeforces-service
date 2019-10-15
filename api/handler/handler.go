@@ -22,7 +22,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mergeforces/mergeforces-service/util/logger"
+	"github.com/mergeforces/mergeforces-service/pkg/util/logger"
 )
 
 type Handler struct {

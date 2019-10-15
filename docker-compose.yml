@@ -11,10 +11,13 @@ services:
     ports:
       - 8080:8080
     restart: on-failure
+    command: ["/usr/local/bin/app/wait-for-db.sh", "db", "/usr/local/bin/app/init.sh"]
 
   db:
     image: postgres:latest
     container_name: mergeforces_db
+    env_file:
+      - ./docker/postgres/.env
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
