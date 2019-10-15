@@ -2,13 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/mergeforces/mergeforces-service/config"
 	"log"
 	"net/http"
+
+	r "github.com/mergeforces/mergeforces-service/api/router"
+	c "github.com/mergeforces/mergeforces-service/config"
 )
 
 func main() {
-	config := config.AppConfig()
+	config := c.AppConfig()
+	router := r.New()
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", Ping)
@@ -19,7 +22,7 @@ func main() {
 
 	s := &http.Server{
 		Addr:         address,
-		Handler:      mux,
+		Handler:      router,
 		ReadTimeout:  config.Server.TimeoutRead,
 		WriteTimeout: config.Server.TimeoutWrite,
 		IdleTimeout:  config.Server.TimeoutIdle,
