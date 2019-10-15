@@ -7,7 +7,7 @@ import (
 	a "github.com/mergeforces/mergeforces-service/api/app"
 	r "github.com/mergeforces/mergeforces-service/api/router"
 	c "github.com/mergeforces/mergeforces-service/config"
-	l "github.com/mergeforces/mergeforces-service/util/logger"
+	l "github.com/mergeforces/mergeforces-service/pkg/util/logger"
 )
 
 func main() {

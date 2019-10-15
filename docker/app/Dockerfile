@@ -23,20 +23,27 @@ COPY ./docker/app/.env .env
 COPY . .
 
 # Build the Go web
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd/web
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./bin/app ./cmd/web
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./bin/migrate ./cmd/migrate
 
 # Start a new stage from scratch
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+RUN apk update && apk --no-cache add ca-certificates
+RUN apk add --no-cache bash postgresql-client
 
 WORKDIR /root/
 
 # Copy the Pre-built binary file from the previous stage. Observe we also copied the .env file
-COPY --from=builder /app/main .
-COPY --from=builder /app/.env .
+COPY --from=builder /app/bin/app /app/
+COPY --from=builder /app/bin/migrate /app/
+COPY --from=builder /app/migrations /app/migrations
+COPY --from=builder /app/.env /app/
+
+COPY --from=builder /app/docker/app/bin /usr/local/bin/app/
+RUN chmod +x /usr/local/bin/app/*
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
 #Command to run the executable
-CMD ["./main"]
+CMD ["/app/app"]

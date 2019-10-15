@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/mergeforces/mergeforces-service/util/logger"
+	"github.com/mergeforces/mergeforces-service/pkg/util/logger"
 )
 
 type App struct{
