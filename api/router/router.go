@@ -11,6 +11,8 @@ func New(app *app.App)  *chi.Mux {
 	l := app.Logger()
 
 	r := chi.NewRouter()
+	r.Get("/health/live", app.HandleLive)
+	r.Method("GET", "/health/ready", handler.NewHandler(app.HandleReady, l))
 	r.Method("GET", "/", handler.NewHandler(app.HandleIndex, l))
 
 	return r
