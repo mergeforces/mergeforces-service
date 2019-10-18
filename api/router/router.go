@@ -13,6 +13,13 @@ func New(app *app.App)  *chi.Mux {
 	r := chi.NewRouter()
 	r.Get("/health/live", app.HandleLive)
 	r.Method("GET", "/health/ready", handler.NewHandler(app.HandleReady, l))
+
+	r.Method("GET", "/events", handler.NewHandler(app.HandleListEvents, l))
+	r.Method("POST", "/events", handler.NewHandler(app.HandleCreateEvent, l))
+	r.Method("GET", "/events/{id}", handler.NewHandler(app.HandleReadEvent, l))
+	r.Method("PUT", "/events/{id}", handler.NewHandler(app.HandleUpdateEvent, l))
+	r.Method("DELETE", "/events/{id}", handler.NewHandler(app.HandleDeleteEvent, l))
+
 	r.Method("GET", "/", handler.NewHandler(app.HandleIndex, l))
 
 	return r
