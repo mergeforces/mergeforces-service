@@ -4,16 +4,27 @@ import (
 	"fmt"
 	"net/http"
 
-	a "github.com/mergeforces/mergeforces-service/api/app"
+	"github.com/mergeforces/mergeforces-service/api/app"
 	r "github.com/mergeforces/mergeforces-service/api/router"
 	c "github.com/mergeforces/mergeforces-service/config"
+	dbConn "github.com/mergeforces/mergeforces-service/pkg/adapter/gorm"
 	l "github.com/mergeforces/mergeforces-service/pkg/util/logger"
 )
 
 func main() {
 	config := c.AppConfig()
 	logger := l.New(config.Debug)
-	application := a.New(logger)
+
+	db, err := dbConn.New(config)
+	if err != nil {
+		logger.Fatal().Err(err).Msg("")
+		return
+	}
+	if config.Debug {
+		db.LogMode(true)
+	}
+
+	application := app.New(logger, db)
 	router := r.New(application)
 
 	address := fmt.Sprintf(":%d", config.Server.Port)
