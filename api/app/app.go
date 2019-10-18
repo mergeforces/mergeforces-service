@@ -6,6 +6,11 @@ import (
 	"github.com/mergeforces/mergeforces-service/pkg/util/logger"
 )
 
+const (
+	appErrDataAccessFailure = "data access failure"
+	appErrJsonCreationFailure = "json creation failure"
+)
+
 type App struct{
 	logger *logger.Logger
 	db     *gorm.DB
