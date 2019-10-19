@@ -18,3 +18,11 @@ func ListEvents(db *gorm.DB) (models.Events, error) {
 
 	return events, nil
 }
+
+func ReadEvent(db *gorm.DB, id uint) (*models.Event, error) {
+	event := &models.Event{}
+	if err := db.Where("id = ?", id).First(&event).Error; err != nil {
+		return nil, err
+	}
+	return event, nil
+}
