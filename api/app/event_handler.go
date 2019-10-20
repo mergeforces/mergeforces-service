@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/jinzhu/gorm"
 
+	"github.com/mergeforces/mergeforces-service/pkg/models"
 	"github.com/mergeforces/mergeforces-service/pkg/repository"
 )
 
@@ -38,7 +39,34 @@ func (app *App) HandleListEvents(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *App) HandleCreateEvent(w http.ResponseWriter, r *http.Request){
-	w.WriteHeader(http.StatusCreated)
+	form := &models.EventForm{}
+	if err := json.NewDecoder(r.Body).Decode(form); err != nil {
+		app.logger.Warn().Err(err).Msg("")
+
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		return
+	}
+
+	eventModel, err := form.ToModel()
+	if err != nil {
+		app.logger.Warn().Err(err).Msg("")
+
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		return
+	}
+
+	event, err := repository.CreateEvent(app.db, eventModel)
+	if err != nil {
+		app.logger.Warn().Err(err).Msg("")
+
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, `{"error": "%v"}`, appErrDataCreationFailure)
+		return
+	}
+
+	app.logger.Info().Msgf("New event created: %d", event.ID)
 }
 
 func (app *App) HandleReadEvent(w http.ResponseWriter, r *http.Request) {
