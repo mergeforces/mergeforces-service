@@ -1,5 +1,8 @@
 # Mergeforces Service
 
+[![Build Status](https://travis-ci.org/mergeforces/mergeforces-service.svg?branch=master)](https://travis-ci.org/mergeforces/mergeforces-service.svg?branch=master)[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/mergeforces/mergeforces-service/blob/master/.github/LICENSE.md)
+
+
 Mergeforces service is a hands-on example of a complete web application written in Go for the purposes of applying knowledge gained from self learning and creating an open source project that provides free user group listings.
 
 ### Quickstart
