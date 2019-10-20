@@ -34,3 +34,12 @@ func ReadEvent(db *gorm.DB, id uint) (*models.Event, error) {
 	}
 	return event, nil
 }
+
+func DeleteEvent(db *gorm.DB, id uint) error {
+	event := &models.Event{}
+	if err := db.Where("id = ?", id).Delete(&event).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
