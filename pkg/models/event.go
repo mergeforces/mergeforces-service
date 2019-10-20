@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -14,8 +12,6 @@ type Event struct {
 	Description  string
 	Location     string
 	Availability int
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
 }
 
 type EventDtos []*EventDto
@@ -26,8 +22,22 @@ type EventDto struct {
 	Description  string `json:"description"`
 	Location     string `json:"location"`
 	Availability int    `json:"availability"`
-	CreatedAt    string `json:"created_at"`
-	UpdatedAt    string `json:"updated_at"`
+}
+
+type EventForm struct {
+	Name			string  `json:"name"`
+	Description		string  `json:"description"`
+	Location		string  `json:"location"`
+	Availability	int  	`json:"availability"`
+}
+
+func (f *EventForm) ToModel() (*Event, error) {
+	return &Event{
+		Name:			f.Name,
+		Description:	f.Description,
+		Location:		f.Location,
+		Availability:	f.Availability,
+	}, nil
 }
 
 func (e Event) ToDto() *EventDto {
@@ -37,8 +47,6 @@ func (e Event) ToDto() *EventDto {
 		Description:  e.Description,
 		Location:     e.Location,
 		Availability: e.Availability,
-		CreatedAt:    e.CreatedAt.Format("2006-01-02T15:04:05-07:00"),
-		UpdatedAt:    e.UpdatedAt.Format("2006-01-02T15:04:05-07:00"),
 	}
 }
 
