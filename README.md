@@ -33,3 +33,11 @@ Migrations will be run automatically upon restarting the application; however to
 goose postgres "user=postgres dbname=mergeforces_app sslmode=disable" status
 goose postgres "postgres://postgres:postgres@0.0.0.0:5432/mergeforces_app?sslmode=disable" up
 ```
+
+### Running linting
+
+Install `golangci-lint` via `brew install golangci/tap/golangci-lint` and run linting:
+
+```bash
+golangci-lint run
+```

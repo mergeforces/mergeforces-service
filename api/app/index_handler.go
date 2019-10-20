@@ -9,5 +9,9 @@ func (app *App) HandleIndex(w http.ResponseWriter, _ *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 
-	w.Write([]byte("Hello World!"))
+	_, err := w.Write([]byte("Hello World!"))
+
+	if err != nil {
+		app.logger.Warn().Err(err).Msg("Handling Index Failed")
+	}
 }

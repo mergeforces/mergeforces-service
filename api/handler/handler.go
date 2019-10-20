@@ -16,6 +16,7 @@
 package handler
 
 import (
+	"github.com/rs/zerolog/log"
 	"io"
 	"io/ioutil"
 	"net"
@@ -66,7 +67,10 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if rcc.err == nil && rcc.r != nil {
 		// If the handler hasn't encountered an error in the Body (like EOF),
 		// then consume the rest of the Body to provide an accurate rcc.n.
-		io.Copy(ioutil.Discard, rcc)
+		_, err := io.Copy(ioutil.Discard, rcc)
+		if err != nil {
+			log.Log().Err(err)
+		}
 	}
 	le.RequestBodySize = rcc.n
 	le.Status = w2.code

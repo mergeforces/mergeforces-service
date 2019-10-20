@@ -19,12 +19,18 @@ func (app *App) HandleListEvents(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrDataAccessFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrDataAccessFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
 	if events == nil {
-		fmt.Fprint(w, "[]")
+		_, err := fmt.Fprint(w, "[]")
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -33,7 +39,10 @@ func (app *App) HandleListEvents(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrJsonCreationFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrJsonCreationFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 }
@@ -44,7 +53,10 @@ func (app *App) HandleCreateEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -52,7 +64,10 @@ func (app *App) HandleCreateEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		fmt.Fprintf(w, `{"error": "%v"}`, err.Error())
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, err.Error())
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -61,7 +76,11 @@ func (app *App) HandleCreateEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
+
 		return
 	}
 
@@ -70,7 +89,10 @@ func (app *App) HandleCreateEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrDataCreationFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrDataCreationFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -96,7 +118,10 @@ func (app *App) HandleReadEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrDataAccessFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrDataAccessFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -105,7 +130,10 @@ func (app *App) HandleReadEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrJsonCreationFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrJsonCreationFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 }
@@ -124,7 +152,10 @@ func (app *App) HandleUpdateEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -132,7 +163,10 @@ func (app *App) HandleUpdateEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		fmt.Fprintf(w, `{"error": "%v"}`, err.Error())
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, err.Error())
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -141,7 +175,10 @@ func (app *App) HandleUpdateEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -155,7 +192,10 @@ func (app *App) HandleUpdateEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrDataUpdateFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrDataUpdateFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
@@ -176,7 +216,10 @@ func (app *App) HandleDeleteEvent(w http.ResponseWriter, r *http.Request) {
 		app.logger.Warn().Err(err).Msg("")
 
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, `{"error": "%v"}`, appErrDataAccessFailure)
+		_, err := fmt.Fprintf(w, `{"error": "%v"}`, appErrDataAccessFailure)
+		if err != nil {
+			app.logger.Warn().Err(err).Msg("Failed to write error response")
+		}
 		return
 	}
 
