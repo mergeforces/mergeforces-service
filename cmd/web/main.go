@@ -9,11 +9,13 @@ import (
 	c "github.com/mergeforces/mergeforces-service/config"
 	dbConn "github.com/mergeforces/mergeforces-service/pkg/adapter/gorm"
 	l "github.com/mergeforces/mergeforces-service/pkg/util/logger"
+	vr "github.com/mergeforces/mergeforces-service/pkg/util/validator"
 )
 
 func main() {
 	config := c.AppConfig()
 	logger := l.New(config.Debug)
+	validator := vr.New()
 
 	db, err := dbConn.New(config)
 	if err != nil {
@@ -24,11 +26,11 @@ func main() {
 		db.LogMode(true)
 	}
 
-	application := app.New(logger, db)
+	application := app.New(logger, db, validator)
 	router := r.New(application)
 
 	address := fmt.Sprintf(":%d", config.Server.Port)
-
+	
 	logger.Info().Msgf("Starting server %v", address)
 
 	s := &http.Server{

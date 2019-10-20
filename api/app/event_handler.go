@@ -48,6 +48,14 @@ func (app *App) HandleCreateEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := app.validator.Struct(form); err != nil {
+		app.logger.Warn().Err(err).Msg("")
+
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		fmt.Fprintf(w, `{"error": "%v"}`, err.Error())
+		return
+	}
+
 	eventModel, err := form.ToModel()
 	if err != nil {
 		app.logger.Warn().Err(err).Msg("")
@@ -117,6 +125,14 @@ func (app *App) HandleUpdateEvent(w http.ResponseWriter, r *http.Request) {
 
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		fmt.Fprintf(w, `{"error": "%v"}`, appErrFormDecodingFailure)
+		return
+	}
+
+	if err := app.validator.Struct(form); err != nil {
+		app.logger.Warn().Err(err).Msg("")
+
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		fmt.Fprintf(w, `{"error": "%v"}`, err.Error())
 		return
 	}
 

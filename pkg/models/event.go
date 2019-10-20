@@ -18,8 +18,8 @@ type EventDtos []*EventDto
 
 type EventDto struct {
 	ID           uint   `json:"id"`
-	Name         string `json:"name"`
-	Description  string `json:"description"`
+	Name         string `json:"name" form:"required,max=100"`
+	Description  string `json:"description" form:"required,max=2048"`
 	Location     string `json:"location"`
 	Availability int    `json:"availability"`
 }
